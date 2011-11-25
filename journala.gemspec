@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "README.txt",
     "Rakefile",
     "VERSION",
+    "journala.gemspec",
     "lib/journala.rb",
     "lib/journala/entry.rb",
     "lib/journala/journal.rb",
