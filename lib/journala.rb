@@ -6,4 +6,4 @@ require 'journala/entry'
 require 'journala/row'
 require 'journala/value'
 
-require 'journala/chase_parser'
+require 'journala/parsers'
