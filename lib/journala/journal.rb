@@ -76,7 +76,7 @@ module Journala
 
           # row with amount
           elsif line =~ /\s+(.*)\s{2,}(-?)\$?([\d\.]+)/
-            row = Row.new(:account => $1, :amount => $2.nil? ? $3 : (0.0 - $3.to_f))
+            row = Row.new(:account => $1, :amount => $2.blank? ? $3 : (0.0 - $3.to_f))
             current_entry.rows << row
 
           # row without amount
