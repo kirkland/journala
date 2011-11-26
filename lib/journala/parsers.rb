@@ -1,1 +1,1 @@
-require 'parsers/chase'
+require 'journala/parsers/chase'
