@@ -7,7 +7,7 @@ module Journala
     # for debugging. in normal usage you only need @journal, which is returned anyway
     attr_accessor :doc, :json, :data, :journal
 
-    def initialize(input_filename="Account Activity.html")
+    def self.parse(input_filename="Account Activity.html")
       @doc = open(input_filename) {|f| Hpricot(f) }
 
       # data is contained inside a script tag
