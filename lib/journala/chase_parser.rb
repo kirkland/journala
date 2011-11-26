@@ -3,6 +3,10 @@ require 'json'
 
 module Journala
   class ChaseParser
+
+    # for debugging. in normal usage you only need @journal, which is returned anyway
+    attr_accessor :doc, :json, :data, :journal
+
     def initialize(input_filename="Account Activity.html")
       @doc = open(input_filename) {|f| Hpricot(f) }
 
@@ -10,7 +14,7 @@ module Journala
       script = @doc.search("#chaseui-pagecontent").search("script")[0].inner_html
 
       @data = script.match(/activity = ({.*})/)[1]
-      @json = JSON.parse(data)
+      @json = JSON.parse(@data)
 
       @journal = Journal.new
 
