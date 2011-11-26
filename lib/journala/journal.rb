@@ -75,12 +75,15 @@ module Journala
             journal.entries << current_entry
 
           # row with amount
-          elsif line =~ /\s+(.*)\s{2,}(-?)\$?(.*)/
+          elsif line =~ /\s+(.*)\s{2,}(-?)\$?([\d\.]+)/
             row = Row.new(:account => $1, :amount => $2.nil? ? $3 : (0.0 - $3.to_f))
             current_entry.rows << row
 
           # row without amount
           elsif line =~ /\s+(.*)/
+            # already have 2 rows and try to do one without an amount? sorry, that's not allowed
+            raise "Must specify amount for each row for entries with more than 2 rows" if current_entry.rows.count >= 2
+            
             other_amount = current_entry.rows.first.amount
             row = Row.new(:account => $1, :amount => 0-other_amount)
             current_entry.rows << row
