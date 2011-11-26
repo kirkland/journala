@@ -60,6 +60,7 @@ module Journala
         file = File.open(filename, 'r')
 
         journal = Journal.new
+        current_entry = nil
 
         file.each_line do |line|
           if line =~ /^$/
@@ -69,25 +70,25 @@ module Journala
             confirmed = $2
             description = $3
     
-            entry = Entry.new(:date => date, :confirmed => confirmed.present?, :description => description)
+            current_entry = Entry.new(:date => date, :confirmed => confirmed.present?, :description => description)
 
-            journal.entries << entry
+            journal.entries << current_entry
 
           # row with amount
-          elsif line =~ /\s+(.*)\s{2,}\$(.*)/
-            row = Row.new(:account => $1, :amount => $2)
-            journal.entries.last.rows << row
+          elsif line =~ /\s+(.*)\s{2,}(-?)\$?(.*)/
+            row = Row.new(:account => $1, :amount => $2.nil? ? $3 : (0.0 - $3.to_f))
+            current_entry.rows << row
 
           # row without amount
           elsif line =~ /\s+(.*)/
-            other_amount = journal.entries.last.rows.first.amount
+            other_amount = current_entry.rows.first.amount
             row = Row.new(:account => $1, :amount => 0-other_amount)
-            journal.entries.last.rows << row
+            current_entry.rows << row
           end
     
         end
 
-        f.close
+        file.close
 
         journal
       end
