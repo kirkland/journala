@@ -48,7 +48,7 @@ module Journala
       other_journal.entries.each do |entry|
         transaction_id = entry.description.match(/\(transaction id: (\d+)\)/)[1]
 
-        if @entries.none? {|e| e.description.match(/\(transaction id: \d+\)/) }
+        if @entries.none? {|e| e.description.match(/\(transaction id: #{transaction_id}\)/) }
           @entries << entry
         end
       end
