@@ -18,7 +18,7 @@ module Journala
     end
 
     def to_s
-      spaces = ' ' * (70 - @account.length - @amount.length)
+      spaces = ' ' * [(70 - @account.length - @amount.length), 5].max
       "    #{@account}#{spaces}#{@amount}"
     end
   end
